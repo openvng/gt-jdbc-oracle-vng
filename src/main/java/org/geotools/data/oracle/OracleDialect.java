@@ -1385,8 +1385,10 @@ public class OracleDialect extends PreparedStatementSQLDialect {
 
         if(offset == 0) {
             // top-n query: select * from (your_query) where rownum <= n;
-            sql.insert(0, "SELECT * FROM (");
-            sql.append(") WHERE ROWNUM <= " + limit);
+            sql.insert(0, "SELECT B.* FROM (SELECT A.*, ROWNUM RNUM FROM ( ");
+            sql.append(") A ) B WHERE RNUM <= " + limit);
+            //sql.insert(0, "SELECT * FROM (");
+            //sql.append(") WHERE ROWNUM <= " + limit);
         } else {
             // find results between N and M
             // select * from
@@ -1395,9 +1397,11 @@ public class OracleDialect extends PreparedStatementSQLDialect {
             //   where rownum <= :M )
             // where rnum >= :N;
             long max = (limit == Integer.MAX_VALUE ? Long.MAX_VALUE : limit + offset);
-            sql.insert(0, "SELECT * FROM (SELECT A.*, ROWNUM RNUM FROM ( ");
-            sql.append(") A WHERE ROWNUM <= " + max + ")");
-            sql.append("WHERE RNUM > " + offset);
+            sql.insert(0, "SELECT B.* FROM (SELECT A.*, ROWNUM RNUM FROM ( ");
+            sql.append(") A ) B WHERE RNUM > " + offset);
+            sql.append(" AND RNUM <= " + max);
+            //sql.append(") A WHERE ROWNUM <= " + max + ")");
+            //sql.append("WHERE RNUM > " + offset);
         }
     }
 
