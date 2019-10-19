@@ -1415,9 +1415,13 @@ public class OracleDialect extends PreparedStatementSQLDialect {
     public void registerSqlTypeToSqlTypeNameOverrides(
     		Map<Integer, String> overrides) {
     	super.registerSqlTypeToSqlTypeNameOverrides(overrides);
-    	overrides.put(Types.REAL, "DOUBLE PRECISION");
-    	overrides.put(Types.DOUBLE, "DOUBLE PRECISION");
-    	overrides.put(Types.FLOAT, "FLOAT");
+    	//overrides.put(Types.REAL, "DOUBLE PRECISION");
+    	//overrides.put(Types.DOUBLE, "DOUBLE PRECISION");
+    	//overrides.put(Types.FLOAT, "FLOAT");
+      overrides.put(Types.REAL, "NUMBER");
+    	overrides.put(Types.DOUBLE, "NUMBER");
+    	overrides.put(Types.FLOAT, "NUMBER");
+      
         // starting with Oracle 11 + recent JDBC drivers the DATE type does not have a mapping
         // anymore in the JDBC driver, manually register it instead
         overrides.put(Types.DATE, "DATE");
