@@ -1422,9 +1422,12 @@ public class OracleDialect extends PreparedStatementSQLDialect {
     	overrides.put(Types.DOUBLE, "NUMBER");
     	overrides.put(Types.FLOAT, "NUMBER");
       
+      overrides.put(Types.DATE, "VARCHAR2");
+      overrides.put(Types.TIMESTAMP, "VARCHAR2");
+      
         // starting with Oracle 11 + recent JDBC drivers the DATE type does not have a mapping
         // anymore in the JDBC driver, manually register it instead
-        overrides.put(Types.DATE, "DATE");
+        //overrides.put(Types.DATE, "DATE");
     }
 
     @Override
